@@ -13,9 +13,10 @@ double function(double x) {
 	return x * sin(x) * cos(2.0 * x);
 }
 double simpleIterFunction(double x) { // how
-	return sin(x) * cos(2.0 * x)*2;
+	//return sin(x) * cos(2.0 * x)*2;
+	return x + function(x);
 }
-//Метод дихотомии
+
 double BisectionMethod(double a, double b, double eps, int& iterations)
 {
 	double x;
@@ -32,7 +33,7 @@ double BisectionMethod(double a, double b, double eps, int& iterations)
 	}
 	return (a + b) / 2;
 }
-//Метод хорд
+
 double ChordMethod(double a, double b, double epsilon, int& iterations) {
 	a += 0.1;
 	double x0 = b;
@@ -45,7 +46,7 @@ double ChordMethod(double a, double b, double epsilon, int& iterations) {
 	}
 	return x0;
 }
-//Метод Простых итераций
+
 double SimpleIterMethod(double a, double epsilon, int& iterations) {
 	double b;
 	iterations = 0;
@@ -72,7 +73,7 @@ double NewtonMethod(double a, double epsilon, int& iterations) {
 	}
 	return -b;
 }
-//Метод секущих
+
 double SecantMethod(double a, double c, double epsilon, int& iterations) {
 	a = 0.4;
 	c = 2;
@@ -107,10 +108,10 @@ void task_1() {
 
 }
 int main() {
-	int c = -1;
-	while (c != 0) {
-		cout << "enter number for task, 0 for exit" << endl;
-		cin >> c;
+	int c = 1;
+	//while (c != 0) {
+		//cout << "enter number for task, 0 for exit" << endl;
+		//cin >> c;
 		switch (c) {
 		case 1:
 			task_1();
@@ -118,5 +119,7 @@ int main() {
 		default:
 			break;
 		}
-	}
+	//}
+		cout << endl;
+		cin >> c;
 }
