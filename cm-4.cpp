@@ -226,10 +226,6 @@ void task_2(double x0, double y0)
 	cout << endl;
 }
 
-
-
-
-
 int main() {
 	int c = 1;
 	while (c != 0) {
