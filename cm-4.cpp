@@ -106,6 +106,257 @@ void task_1() {
 	std::cout << std::fixed << std::setprecision(20) << "Secant(sekushaya) \t" << results[4] << "\t" << abs(exactAnswer - results[4]) << "\t " << iterations[4] << std::endl;
 
 }
+
+#pragma endregion
+#pragma region TASK2
+double function2x(double x, double y) {
+	return (y * y * exp(1 - x) - 1) / (2 * exp(1 - y));
+
+}
+double function2y(double x, double y) {
+	return (x * x * exp(1 - y)) / (2 * exp(1 - x));
+}
+
+
+std::vector<double> SimpleIterMethod2(double a, double b, double epsilon, int& iterations) {
+	double x, y;
+	x = a;
+	y = b;
+	iterations = 0;
+	std::vector<double> answer(2);
+	do
+	{
+		iterations += 1;
+		a = x;
+		b = y;
+		x = function2x(a, b);
+		y = function2y(a, b);
+
+	} while (abs(x - a) + abs(y - b) > 0.1);
+	answer[0] = x;
+	answer[1] = y;
+	return answer;
+}
+void task_2() {
+
+	double error = 1e-6;
+	double a = 0.1; double b = 0.1;
+	int iterations;
+	std::vector<double> answer = SimpleIterMethod2(a, b, error, iterations);
+	std::cout << std::fixed << std::setprecision(1) << "Initial approximation : x = " << a << ", y = " << b << std::endl;
+	std::cout << std::fixed << std::setprecision(10) << "Simple iteration method \t" << "x = " << answer[0] << "\t" << "y = " << answer[1] << std::endl;
+	std::cout << "Needed iterations: " << iterations << std::endl;
+
+}
+
+#pragma endregion
+
+/*#pragma region TASK3
+
+
+void function3(std::vector<double>& fx, std::vector<double>& x)
+{
+	fx[0] = f1(x[0], x[1]);
+	fx[1] = f2(x[0], x[1]);
+}
+
+void createJacobi(std::vector<double>& jacobiM, std::vector<double>& x)
+{
+	jacobiM[0] = f1x(x[0], x[1]);
+	jacobiM[1] = f1y(x[0], x[1]);
+	jacobiM[2] = f2x(x[0], x[1]);
+	jacobiM[3] = f2y(x[0], x[1]);
+}
+
+void inverseJacobi(std::vector<double>& jacobiM)
+{
+	double det = jacobiM[0] * jacobiM[3] - jacobiM[2] * jacobiM[1];
+	double temp = jacobiM[0];
+	jacobiM[0] = jacobiM[3];
+	jacobiM[3] = temp;
+	jacobiM[1] = -jacobiM[1];
+	jacobiM[2] = -jacobiM[2];
+	for (int i = 0; i < 4; i++) {
+		jacobiM[i] = jacobiM[i] / det;
+	}
+}
+
+std::vector<double>  productM(std::vector<double>& jacobiM, std::vector<double>& x) {
+	std::vector <double> result(x.size());
+	result[0] = jacobiM[0] * x[0] + jacobiM[1] * x[1];
+	result[1] = jacobiM[2] * x[0] + jacobiM[3] * x[1];
+	return result;
+}
+
+std::vector<double> minusV(std::vector<double>& x, std::vector<double>& p) {
+	std::vector<double> result(x.size());
+	for (int i = 0; i < x.size(); i++) {
+		result[i] = x[i] - p[i];
+	}
+
+	return result;
+}
+std::vector<double> newtIter(std::vector<double> x) {
+	std::vector<double> result(2);
+	std::vector<double> product(2);
+	std::vector<double> jacobiM(4);
+	std::vector<double> fx(2);
+	function3(fx, x);
+	createJacobi(jacobiM, x);
+	inverseJacobi(jacobiM);
+	product = productM(jacobiM, fx);
+	result = minusV(x, product);
+	return result;
+}
+void task_3() {
+	double a = 0.1, b = 0.1;
+	std::vector<double> x = { a,b };
+	double eps = 1e-6;
+	double error = 1;
+	double preverror = 0;
+	std::vector<double>  currX;
+	int iterations = 0;
+	while (1) {
+		currX = newtIter(x);
+		if (abs(x[0] - currX[0]) + abs(x[1] - currX[1]) < eps)
+			break;
+		else
+			x = currX;
+		iterations++;
+	}
+
+	std::cout << "Initial approximation: x = " << std::fixed << std::setprecision(1) << a << ", y = " << b << std::endl;
+	std::cout << "Newton method: " << "x = " << std::fixed << std::setprecision(10) << x[0] << "\t" << "y = " << x[1] << std::endl;
+	std::cout << "Needed iterations: " << iterations << std::endl;
+}
+
+#pragma endregion */
+
+
+double f(double x, double y)
+{
+	return pow(x, 2) * exp(1 - y) + pow(y, 2) * exp(1 - x) + x;
+}
+
+double f1(double x, double y)
+{
+	return 2 * x * exp(1 - y) - pow(y, 2) * exp(1 - x) + 1;
+}
+
+double f2(double x, double y)
+{
+	return -pow(x, 2) * exp(1 - y) + 2 * y * exp(1 - x);
+}
+
+double df1dx(double x, double y)
+{
+	return 2 * exp(1 - y) + pow(y, 2) * exp(1 - x);
+}
+
+double df1dy(double x, double y)
+{
+	return -2 * x * exp(1 - y) - 2 * y * exp(1 - x);
+}
+
+double df2dx(double x, double y)
+{
+	return -2 * x * exp(1 - y) - 2 * y * exp(1 - x);
+}
+
+double df2dy(double x, double y)
+{
+	return pow(x, 2) * exp(1 - y) + 2 * exp(1 - x);
+}
+
+void System_Method_Newton(double a, double b)
+{
+	int count_itr = 1;
+	double x0 = a, x1, y0 = b, y1, delta = 0.00001, dmax;
+	x1 = x0 - (df2dy(x0, y0) * f1(x0, y0) - df2dx(x0, y0) * f2(x0, y0)) / (df1dx(x0, y0) * df2dy(x0, y0) - df1dy(x0, y0) * df2dx(x0, y0));
+	y1 = y0 - (-df1dy(x0, y0) * f1(x0, y0) + df1dx(x0, y0) * f2(x0, y0)) / (df1dx(x0, y0) * df2dy(x0, y0) - df1dy(x0, y0) * df2dx(x0, y0));
+	if (abs(x1 - x0) > abs(y1 - y0))
+	{
+		dmax = abs(x1 - x0);
+	}
+	else
+	{
+		dmax = abs(y1 - y0);
+	}
+	while (dmax > delta)
+	{
+		x0 = x1;
+		y0 = y1;
+		x1 = x0 - (df2dy(x0, y0) * f1(x0, y0) - df2dx(x0, y0) * f2(x0, y0)) / (df1dx(x0, y0) * df2dy(x0, y0) - df1dy(x0, y0) * df2dx(x0, y0));
+		y1 = y0 - (-df1dy(x0, y0) * f1(x0, y0) + df1dx(x0, y0) * f2(x0, y0)) / (df1dx(x0, y0) * df2dy(x0, y0) - df1dy(x0, y0) * df2dx(x0, y0));
+		if (abs(x1 - x0) > abs(y1 - y0))
+		{
+			dmax = abs(x1 - x0);
+		}
+		else
+		{
+			dmax = abs(y1 - y0);
+		}
+		count_itr++;
+	}
+	cout << "Newton Method: " << endl;
+	cout << "[x, y]: " << fixed << setprecision(10) << x1 << " " << y1 << endl;
+	cout << "Answer: " << fixed << setprecision(10) << f(x1, y1) << endl;
+	cout << "Number of iteration: " << count_itr << endl;
+	cout << "-----------------------------------------------------------------" << endl;
+}
+
+double fi(double x, double y)
+{
+	return (pow(y, 2) * exp(1 - x) - 1) / (2 * exp(1 - y));
+}
+
+double phi(double x, double y)
+{
+	return (pow(x, 2) * exp(1 - y)) / (2 * exp(1 - x));
+}
+
+void System_Simple_Iteration_Method(double x0, double y0)
+{
+	int itr_count = 1;
+	double delta = 0.000001, dmax;
+	double x1 = fi(x0, y0);
+	double y1 = phi(x0, y0);
+	if (abs(x1 - x0) > abs(y1 - y0))
+	{
+		dmax = abs(x1 - x0);
+	}
+	else
+	{
+		dmax = abs(y1 - y0);
+	}
+	while (dmax > delta)
+	{
+		itr_count++;
+		x0 = x1;
+		y0 = y1;
+		x1 = fi(x0, y0);
+		y1 = phi(x0, y0);
+		if (abs(x1 - x0) > abs(y1 - y0))
+		{
+			dmax = abs(x1 - x0);
+		}
+		else
+		{
+			dmax = abs(y1 - y0);
+		}
+	}
+	cout << "Method Simple Iterations: " << endl;
+	cout << "[x, y]: " << fixed << setprecision(10) << x1 << " " << y1 << endl;
+	cout << "Answer: " << fixed << setprecision(10) << f(x1, y1) << endl;
+	cout << "Number of iteration: " << itr_count << endl;
+	cout << "-----------------------------------------------------------------" << endl;
+	cout << endl;
+}
+
+
+
+
+
 int main() {
 	int c = -1;
 	while (c != 0) {
@@ -114,6 +365,15 @@ int main() {
 		switch (c) {
 		case 1:
 			task_1();
+			break;
+		case 2:
+			//task_2();
+			System_Simple_Iteration_Method(-0.3, 0.3);
+			break;
+		case 3:
+			//task_3();
+			System_Method_Newton(-0.3, 0.3);
+
 			break;
 		default:
 			break;
