@@ -236,10 +236,10 @@ int main() {
 			task_1();
 			break;
 		case 2:
-			task_2(-0.3, 0.3);
+			task_2(-0.3, 0.3); // any number in [-0.3,0.3]x[-0.3,0.3]
 			break;
 		case 3:
-			task_3(-0.3, 0.3);
+			task_3(-0.3, 0.3); // any number in [-0.3,0.3]x[-0.3,0.3]
 			break;
 		default:
 			return 0;
