@@ -143,7 +143,7 @@ double df2dy(double x, double y)
 	return pow(x, 2) * exp(1 - y) + 2 * exp(1 - x);
 }
 
-void System_Method_Newton(double a, double b)
+void task_3(double a, double b)
 {
 	int count_itr = 1;
 	double x0 = a, x1, y0 = b, y1, delta = 0.00001, dmax;
@@ -189,7 +189,7 @@ double phi(double x, double y)
 	return (pow(x, 2) * exp(1 - y)) / (2 * exp(1 - x));
 }
 
-void System_Simple_Iteration_Method(double x0, double y0)
+void task_2(double x0, double y0)
 {
 	int itr_count = 1;
 	double delta = 0.000001, dmax;
@@ -240,12 +240,10 @@ int main() {
 			task_1();
 			break;
 		case 2:
-			//task_2();
-			System_Simple_Iteration_Method(-0.3, 0.3);
+			task_2(-0.3, 0.3);
 			break;
 		case 3:
-			//task_3();
-			System_Method_Newton(-0.3, 0.3);
+			task_3(-0.3, 0.3);
 			break;
 		default:
 			return 0;
