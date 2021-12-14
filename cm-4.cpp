@@ -360,9 +360,9 @@ void System_Simple_Iteration_Method(double x0, double y0)
 
 int main() {
 	int c = 1;
-	//while (c != 0) {
-		//cout << "enter number for task, 0 for exit" << endl;
-		//cin >> c;
+	while (c != 0) {
+		cout << "enter number for task, 0 for exit" << endl;
+		cin >> c;
 		switch (c) {
 		case 1:
 			task_1();
@@ -374,12 +374,9 @@ int main() {
 		case 3:
 			//task_3();
 			System_Method_Newton(-0.3, 0.3);
-
 			break;
 		default:
-			break;
+			return 0;
 		}
-	//}
-		cout << endl;
-		cin >> c;
+	}
 }
